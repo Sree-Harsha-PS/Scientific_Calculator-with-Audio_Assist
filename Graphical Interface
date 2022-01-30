@@ -1,0 +1,500 @@
+import math as m
+import tkinter.messagebox
+from tkinter import *
+from ScientificAudio import speak as sp
+import threading
+
+origin = Tk()
+origin.title("Scientific Calculator")
+origin.configure(background = 'white')
+origin.resizable(width=False, height=False)
+origin.geometry("480x568+450+90")
+calc = Frame(origin)
+calc.grid()
+
+class Calc():
+    def __init__(self):
+        self.total=0
+        self.present=''
+        self.inp_val=True
+        self.check_sum=False
+        self.opertxn=''
+        self.score=False
+
+
+    def getnum(self, num):
+        self.score=False
+        num1=txt_disp.get()
+        num2=str(num)
+        t = threading.Thread(target=sp, args=(num))
+        t.start()
+        if self.inp_val:
+            self.present = num2
+            self.inp_val=False
+        else:
+            if num2 == '.':
+                if num2 in num1:
+                    return
+            self.present = num1+num2
+        self.disp(self.present)
+
+    def score_sum(self):
+        self.score=True
+        self.present=float(self.present)
+        if self.check_sum==True:
+            self.valid_fnc()
+        else:
+            self.total=float(txt_disp.get())
+
+    def disp(self, value):
+        txt_disp.delete(0, END)
+        txt_disp.insert(0, value)
+        sp(value)
+
+    def valid_fnc(self):
+        if self.opertxn == "plus":
+            self.total += self.present
+        if self.opertxn == "minus":
+            self.total -= self.present
+        if self.opertxn == "into":
+            self.total *= self.present
+        if self.opertxn == "divided by":
+            self.total /= self.present
+        if self.opertxn == "mod":
+            self.total %= self.present
+        self.inp_val=True
+        self.check_sum=False
+        self.disp(self.total)
+
+    def operation(self, opertxn):
+        self.present = float(self.present)
+        if self.check_sum:
+            self.valid_fnc()
+        elif not self.score:
+            self.total=self.present
+            self.inp_val=True
+        self.check_sum=True
+        self.opertxn=opertxn
+        sp(self.opertxn)
+        self.score=False
+
+    def clear_inp(self):
+        if self.score == False:
+          sp('Clear')
+        self.score = False
+        self.present = "0"
+        self.disp(0)
+        self.inp_val=True
+
+    def clear_all_inp(self):
+        sp('All Clear')
+        self.clear_inp()
+        self.total=0
+
+
+    def pi(self):
+        sp('pi value is')
+        self.score = False
+        self.present = m.pi
+        self.disp(self.present)
+
+
+    def tau(self):
+        sp('tau value is')
+        self.score = False
+        self.present = m.tau
+        self.disp(self.present)
+
+
+    def e(self):
+        sp('EE value is')
+        self.score = False
+        self.present = m.e
+        self.disp(self.present)
+
+
+    def mPM(self):
+        sp('mPM of value is')
+        self.score = False
+        self.present = -(float(txt_disp.get()))
+        self.disp(self.present)
+
+
+    def squared(self):
+        sp('square root of value is')
+        self.score = False
+        self.present = m.sqrt(float(txt_disp.get()))
+        self.disp(self.present)
+
+
+    def cos(self):
+        sp('cos of value is')
+        self.score = False
+        self.present = m.cos(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+
+    def cosh(self):
+        sp('cos h of value is')
+        self.score = False
+        self.present = m.cosh(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+
+    def tan(self):
+        sp('tan of value is')
+        self.score = False
+        self.present = m.tan(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+    def tanh(self):
+        sp('tan h of value is')
+        self.score = False
+        self.present = m.tanh(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+    def sin(self):
+        sp('sin of value is')
+        self.score = False
+        self.present = m.sin(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+    def sinh(self):
+        sp('sin h of value is')
+        self.score = False
+        self.present = m.sinh(m.radians(float(txt_disp.get())))
+        self.disp(self.present)
+
+    def log(self):
+        sp('log of value is')
+        self.score = False
+        self.present = m.log(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def exp(self):
+        sp('exponential of value is')
+        self.score = False
+        self.present = m.exp(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def acosh(self):
+        sp('arc cos H of value is')
+        self.score = False
+        self.present = m.acosh(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def asinh(self):
+        sp('arc sin H of value is')
+        self.score = False
+        self.present = m.asinh(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def expm1(self):
+        sp('exp m1 of value is')
+        self.score = False
+        self.present = m.expm1(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def gamma(self):
+        sp('gamma of value is')
+        self.score = False
+        self.present = m.lgamma(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def degrees(self):
+        sp('degrees value is')
+        self.score = False
+        self.present = m.degrees(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def log2(self):
+        sp('log base 2 of value is')
+        self.score = False
+        self.present = m.log2(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def log10(self):
+        sp('log base 10 of value is')
+        self.score = False
+        self.present = m.log10(float(txt_disp.get()))
+        self.disp(self.present)
+
+    def log1p(self):
+        sp('log 1 + value is')
+        self.score = False
+        self.present = m.log1p(float(txt_disp.get()))
+        self.disp(self.present)
+
+added_value = Calc()
+
+txt_disp = Entry(calc, font=('Helvetica',20,'bold'),
+                   bg='black',fg='white',
+                   bd=30,width=28,justify=RIGHT)
+txt_disp.grid(row=0,column=0, columnspan=4, pady=1)
+txt_disp.insert(0,"0")
+
+numberpad = "789456123"
+i=0
+btn = []
+for j in range(2,5):
+    for k in range(3):
+        btn.append(Button(calc, width=6, height=2,
+                          bg='black',fg='white',
+                          font=('Helvetica',20,'bold'),
+                          bd=4,text=numberpad[i]))
+        btn[i].grid(row=j, column= k, pady = 1)
+        btn[i]["command"]=lambda x=numberpad[i]:added_value.getnum(x)
+        i+=1
+
+button_clr = Button(calc, text='C',width=6,
+                  height=2,bg='light green',
+                  font=('Helvetica',20,'bold')
+                  ,bd=4, command=added_value.clear_inp
+                  ).grid(row=1, column= 1, pady = 1)
+
+button_all_clr = Button(calc, text="AC",
+                     width=6, height=2,
+                     bg='light green',
+                     font=('Helvetica',20,'bold'),
+                     bd=4,
+                     command=added_value.clear_all_inp
+                     ).grid(row=1, column= 0, pady = 1)
+
+button_sq = Button(calc, text="\u221A",width=6, height=2,
+               bg='light green', font=('Helvetica',
+                                       20,'bold'),
+               bd=4,command=added_value.squared
+               ).grid(row=1, column= 2, pady = 1)
+
+button_add = Button(calc, text="+",width=6, height=2,
+                bg='light green',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.operation("plus")
+                ).grid(row=1, column= 3, pady = 1)
+
+button_sub = Button(calc, text="-",width=6,
+                height=2,bg='light green',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.operation("minus")
+                ).grid(row=2, column= 3, pady = 1)
+
+button_mul = Button(calc, text="x",width=6,
+                height=2,bg='light green',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.operation("into")
+                ).grid(row=3, column= 3, pady = 1)
+
+button_div = Button(calc, text="/",width=6,
+                height=2,bg='light green',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.operation("divided by")
+                ).grid(row=4, column= 3, pady = 1)
+
+button_zero = Button(calc, text="0",width=6,
+                 height=2,bg='black',fg='white',
+                 font=('Helvetica',20,'bold'),
+                 bd=4,command=lambda:added_value.getnum(0)
+                 ).grid(row=5, column= 0, pady = 1)
+
+button_dot = Button(calc, text=".",width=6,
+                height=2,bg='light green',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.getnum(".")
+                ).grid(row=5, column= 1, pady = 1)
+button_PM = Button(calc, text=chr(177),width=6,
+               height=2,bg='light green', font=('Helvetica',20,'bold'),
+               bd=4,command=added_value.mPM
+               ).grid(row=5, column= 2, pady = 1)
+
+button_equals = Button(calc, text="=",width=6,
+                   height=2,bg='light green',
+                   font=('Helvetica',20,'bold'),
+                   bd=4,command=added_value.score_sum
+                   ).grid(row=5, column= 3, pady = 1)
+# ROW 1 :
+button_pi = Button(calc, text="π",width=6,
+               height=2,bg='black',fg='white',
+               font=('Helvetica',20,'bold'),
+               bd=4,command=added_value.pi
+               ).grid(row=1, column= 4, pady = 1)
+
+button_cos = Button(calc, text="cos",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.cos
+                ).grid(row=1, column= 5, pady = 1)
+
+button_tan = Button(calc, text="tan",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.tan
+                ).grid(row=1, column= 6, pady = 1)
+
+button_sin = Button(calc, text="sin",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.sin
+                ).grid(row=1, column= 7, pady = 1)
+
+# ROW 2 :
+button_tau = Button(calc, text="τ",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.tau
+                ).grid(row=2, column= 4, pady = 1)
+
+button_cosh = Button(calc, text="cosh",width=6,
+                 height=2,bg='black',fg='white',
+                 font=('Helvetica',20,'bold'),
+                 bd=4,command=added_value.cosh
+                 ).grid(row=2, column= 5, pady = 1)
+
+button_tanh = Button(calc, text="tanh",width=6,
+                 height=2,bg='black',fg='white',
+                 font=('Helvetica',20,'bold'),
+                 bd=4,command=added_value.tanh
+                 ).grid(row=2, column= 6, pady = 1)
+
+button_sinh = Button(calc, text="sinh",width=6,
+                 height=2,bg='black',fg='white',
+                 font=('Helvetica',20,'bold'),
+                 bd=4,command=added_value.sinh
+                 ).grid(row=2, column= 7, pady = 1)
+
+# ROW 3 :
+button_ln = Button(calc, text="ln",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.log
+                ).grid(row=3, column= 4, pady = 1)
+
+button_exp = Button(calc, text="exp",width=6, height=2,
+                bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.exp
+                ).grid(row=3, column= 5, pady = 1)
+
+button_mod = Button(calc, text="mod",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=lambda:added_value.operation("mod")
+                ).grid(row=3, column= 6, pady = 1)
+
+button_e = Button(calc, text="e",width=6,
+              height=2,bg='black',fg='white',
+              font=('Helvetica',20,'bold'),
+              bd=4,command=added_value.e
+              ).grid(row=3, column= 7, pady = 1)
+
+# ROW 4 :
+button_log10 = Button(calc, text="log10",width=6,
+                  height=2,bg='black',fg='white',
+                  font=('Helvetica',20,'bold'),
+                  bd=4,command=added_value.log10
+                  ).grid(row=4, column= 4, pady = 1)
+
+button_log1plusx = Button(calc, text="log1p",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.log1p
+                ).grid(row=4, column= 5, pady = 1)
+
+button_expx_minus1 = Button(calc, text="expm1",width=6,
+                  height=2,bg='black',fg='white',
+                  font=('Helvetica',20,'bold'),
+                  bd = 4,command=added_value.expm1
+                  ).grid(row=4, column= 6, pady = 1)
+
+button_gamma = Button(calc, text="gamma",width=6,
+                  height=2,bg='black',fg='white',
+                  font=('Helvetica',20,'bold'),
+                  bd=4,command=added_value.gamma
+                  ).grid(row=4, column= 7, pady = 1)
+# ROW 5 :
+button_log2 = Button(calc, text="log2",width=6,
+                 height=2,bg='black',fg='white',
+                 font=('Helvetica',20,'bold'),
+                 bd=4,command=added_value.log2
+                 ).grid(row=5, column= 4, pady = 1)
+
+button_deg = Button(calc, text="deg",width=6,
+                height=2,bg='black',fg='white',
+                font=('Helvetica',20,'bold'),
+                bd=4,command=added_value.degrees
+                ).grid(row=5, column= 5, pady = 1)
+
+button_acosh = Button(calc, text="acosh",width=6,
+                  height=2,bg='black',fg='white',
+                  font=('Helvetica',20,'bold'),
+                  bd=4,command=added_value.acosh
+                  ).grid(row=5, column= 6, pady = 1)
+
+button_asinh = Button(calc, text="asinh",width=6,
+                  height=2,bg='black',fg='white',
+                  font=('Helvetica',20,'bold'),
+                  bd=4,command=added_value.asinh
+                  ).grid(row=5, column= 7, pady = 1)
+
+title_disp = Label(calc, text = "Scientific Interface",
+                   font=('Helvetica',30,'bold'),
+                   bg='black',fg='white',justify=CENTER)
+
+title_disp.grid(row=0, column= 4,columnspan=4)
+
+def iExit():
+    iExit = tkinter.messagebox.askyesno("Scientific Calculator with Audio Assist",
+                                        "Do you want to exit ?")
+    if iExit>0:
+        origin.destroy()
+        return
+
+def Scientific():
+    sp('You are using scientific interface')
+    origin.resizable(width=False, height=False)
+    origin.geometry("944x568+0+0")
+
+
+def Standard():
+    sp('You are using standard interface')
+    origin.resizable(width=False, height=False)
+    origin.geometry("480x568+0+0")
+
+menubar = Menu(calc)
+
+# ManuBar 1 :
+filemenu = Menu(menubar, tearoff = 0)
+menubar.add_cascade(label = 'File', menu = filemenu)
+filemenu.add_command(label = "Standard", command = Standard)
+filemenu.add_command(label = "Scientific", command = Scientific)
+filemenu.add_separator()
+filemenu.add_command(label = "Exit", command = iExit)
+
+# ManuBar 2 :
+editmenu = Menu(menubar, tearoff = 0)
+menubar.add_cascade(label = 'Help', menu = editmenu)
+editmenu.add_command(label = "Updates")
+editmenu.add_separator()
+editmenu.add_command(label = "Audio Included")
+editmenu.add_command(label = "Version 1.1.0")
+
+origin.config(menu=menubar)
+
+origin.mainloop()
+filemenu.add_command(label = "Standard", command = Standard)
+filemenu.add_command(label = "Scientific", command = Scientific)
+filemenu.add_separator()
+filemenu.add_command(label = "Exit", command = iExit)
+
+# ManuBar 2 :
+
+editmenu = Menu(menubar, tearoff = 0)
+menubar.add_cascade(label = 'Edit', menu = editmenu)
+editmenu.add_command(label = "Cut")
+editmenu.add_command(label = "Copy")
+editmenu.add_separator()
+editmenu.add_command(label = "Paste")
+
+root.config(menu=menubar)
+
+root.mainloop()
+
